@@ -1,13 +1,20 @@
+import { useContext } from "react";
 import Feed from "./Feed";
+import { DataContext } from "./context/DataContext";
 
-const Home = ({ posts }) => {
+const Home = () => {
+  const { searchResults, error, loading } = useContext(DataContext);
   return (
     <main className="Home">
-      {posts.length ? (
-        <Feed posts={posts} />
-      ) : (
-        <p style={{ marginTop: "2rem" }}>No posts to display.</p>
-      )}
+      {loading && <p>Loading... Please Wait A Movement!</p>}
+      {!loading && error && <p style={{ color: "red" }}>{error.error}</p>}
+      {!error &&
+        !loading &&
+        (searchResults.length ? (
+          <Feed posts={searchResults} />
+        ) : (
+          <p style={{ marginTop: "2rem" }}>No posts to display.</p>
+        ))}
     </main>
   );
 };
